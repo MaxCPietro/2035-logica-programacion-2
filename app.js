@@ -1,13 +1,15 @@
 //1- DECLARAR VARIABLES
 let numeroSecreto = NaN //NaN = Not a Number;
 let intentos = NaN;
+let listaNumerosSecretos =[];
+let cantidadDeIntentos = 10;
 
 //2- DECLARAR FUNCIONES
 
 //Funcion para inicializar la pantalla
 function inicializarPantalla() {
     asignarTextoElemento("h1", "Juego del Número Secreto!");
-    asignarTextoElemento("p", "Ingresa un numero entre 1 y 10");
+    asignarTextoElemento("p", `Ingresa un numero entre 1 y ${cantidadDeIntentos}`);
     //Generar el número secreto
     numeroSecreto = generarNummeroSecreto();    
     //deshabilitar el boton de reiniciar
@@ -25,7 +27,21 @@ function asignarTextoElemento(elemento, texto) {
 
 //Funcion que genera un numero aleatorio
 function generarNummeroSecreto() {
-    return Math.floor(Math.random() * 10)+1;
+    //pregunto si fueron todos los numeros sorteados
+    if (listaNumerosSecretos.length === cantidadDeIntentos){ 
+        asignarTextoElemento("p", "Ya no puedes volver a jugar, todos los números fueron sorteados");
+        return;
+    }
+    //Generar un numero aleatorio
+    let numeroGenerado = Math.floor(Math.random() * cantidadDeIntentos)+1;
+    //preguntar si el numero ya fue sorteadado o no y llamo a la fc recursiva
+    if(listaNumerosSecretos.includes(numeroGenerado)) {
+        return generarNummeroSecreto();
+    } else {
+        listaNumerosSecretos.push(numeroGenerado);
+        console.log("listaNumerosSecretos: ", listaNumerosSecretos);
+        return numeroGenerado;
+    }
 }
 
 //Funcion que verifica el intento
